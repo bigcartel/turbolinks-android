@@ -80,7 +80,7 @@ public class TurbolinksSession implements TurbolinksScrollUpCallback {
             throw new IllegalArgumentException("Context must not be null.");
         }
 
-        this.applicationContext = context.getApplicationContext();
+        this.applicationContext = context;
         this.screenshotsEnabled = true;
         this.pullToRefreshEnabled = true;
         this.webViewAttachedToNewParent = false;
