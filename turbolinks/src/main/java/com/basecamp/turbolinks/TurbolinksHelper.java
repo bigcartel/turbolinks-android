@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.MutableContextWrapper;
 import android.os.Handler;
 import android.util.Base64;
+import android.util.Log;
 import android.view.ViewGroup;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -36,6 +37,7 @@ class TurbolinksHelper {
      */
     static WebView createWebView(Context applicationContext) {
 //        MutableContextWrapper contextWrapper = new MutableContextWrapper(applicationContext);
+        Log.d("TURBOLINKS", "creating webview");
         WebView webView = new WebView(applicationContext);
         configureWebViewDefaults(webView);
         setWebViewLayoutParams(webView);
