@@ -35,8 +35,8 @@ class TurbolinksHelper {
      * @return The shared WebView.
      */
     static WebView createWebView(Context applicationContext) {
-        MutableContextWrapper contextWrapper = new MutableContextWrapper(applicationContext);
-        WebView webView = new WebView(contextWrapper);
+//        MutableContextWrapper contextWrapper = new MutableContextWrapper(applicationContext);
+        WebView webView = new WebView(applicationContext);
         configureWebViewDefaults(webView);
         setWebViewLayoutParams(webView);
 
