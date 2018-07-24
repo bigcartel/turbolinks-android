@@ -42,7 +42,7 @@ class TurbolinksSwipeRefreshLayout extends SwipeRefreshLayout {
             return callback.canChildScrollUp();
         }
 //        return super.canChildScrollUp();
-        Log.d("TURBOLINKS", "CAN CHILD SCROLL UP");
+        Log.d("TURBOLINKSTEST", "CAN CHILD SCROLL UP");
         return false;
     }
 
@@ -53,7 +53,7 @@ class TurbolinksSwipeRefreshLayout extends SwipeRefreshLayout {
      * @param callback The custom callback to be set
      */
     void setCallback(TurbolinksScrollUpCallback callback) {
-        Log.d("TURBOLINKS", "SET CALLBACK");
+        Log.d("TURBOLINKSTEST", "SET CALLBACK");
         this.callback = callback;
     }
 }

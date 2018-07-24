@@ -692,7 +692,7 @@ public class TurbolinksSession implements TurbolinksScrollUpCallback {
     public void setPullToRefreshEnabled(boolean enabled) {
         pullToRefreshEnabled = enabled;
         if(!enabled) {
-            Log.d("TURBOLINKS", "SET PULL TO REFRESH: " + enabled);
+            Log.d("TURBOLINKSTEST", "SET PULL TO REFRESH: " + enabled);
             this.turbolinksView.getRefreshLayout().setCallback(null);
         }
     }
