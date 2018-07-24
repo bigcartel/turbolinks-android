@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -691,6 +692,7 @@ public class TurbolinksSession implements TurbolinksScrollUpCallback {
     public void setPullToRefreshEnabled(boolean enabled) {
         pullToRefreshEnabled = enabled;
         if(!enabled) {
+            Log.d("TURBOLINKS", "SET PULL TO REFRESH: " + enabled);
             this.turbolinksView.getRefreshLayout().setCallback(null);
         }
     }
