@@ -3,6 +3,7 @@ package com.basecamp.turbolinks;
 import android.content.Context;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.AttributeSet;
+import android.util.Log;
 
 /**
  * <p>Custom SwipeRefreshLayout for Turbolinks.</p>
@@ -37,8 +38,11 @@ class TurbolinksSwipeRefreshLayout extends SwipeRefreshLayout {
      */
     @Override
     public boolean canChildScrollUp() {
-        if (callback != null) { return callback.canChildScrollUp(); }
-        return super.canChildScrollUp();
+        if (callback != null) {
+            return callback.canChildScrollUp();
+        }
+//        return super.canChildScrollUp();
+        return false;
     }
 
     /**
@@ -47,5 +51,7 @@ class TurbolinksSwipeRefreshLayout extends SwipeRefreshLayout {
      *
      * @param callback The custom callback to be set
      */
-    void setCallback(TurbolinksScrollUpCallback callback) { this.callback = callback; }
+    void setCallback(TurbolinksScrollUpCallback callback) {
+        this.callback = callback;
+    }
 }
