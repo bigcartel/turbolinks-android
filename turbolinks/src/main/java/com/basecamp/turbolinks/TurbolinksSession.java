@@ -848,11 +848,10 @@ public class TurbolinksSession implements TurbolinksScrollUpCallback {
             try {
 
                 String urlString = args[0];
-                Log.d("TURBOLINKS", "check url args[0]: " + args[0]);
+                // Only append device token if not already there
                 if(!args[0].contains("device_token")) {
                     urlString += "?device_token=" + authToken;
                 }
-                Log.d("TURBOLINKS", "check url urlstring: " + urlString);
                 URL url = new URL(urlString);
                 HttpURLConnection http = (HttpURLConnection)url.openConnection();
                 http.setRequestProperty("User-Agent", "BigCartel-Android");
@@ -885,11 +884,10 @@ public class TurbolinksSession implements TurbolinksScrollUpCallback {
 
         @Override
         protected void onPostExecute(String  location) {
-            Log.d("TURBOLINKS", "checkurl:on post execute: " + location);
-            if(!location.contains("login")) {
-                visitLocationWithAction(location, ACTION_ADVANCE);
-            } else {
+            if(location.contains("login")) {
                 turbolinksAdapter.onReceivedError(401);
+            } else {
+                visitLocationWithAction(location, ACTION_ADVANCE);
             }
         }
     }
