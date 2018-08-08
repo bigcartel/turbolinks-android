@@ -56,6 +56,7 @@ public class TurbolinksSession implements TurbolinksScrollUpCallback {
     TurbolinksView turbolinksView;
     View progressView;
     View progressIndicator;
+    String authToken;
 
     static volatile TurbolinksSession defaultInstance;
 
@@ -90,6 +91,7 @@ public class TurbolinksSession implements TurbolinksScrollUpCallback {
         this.screenshotsEnabled = true;
         this.pullToRefreshEnabled = true;
         this.webViewAttachedToNewParent = false;
+        this.authToken = "";
 
         this.webView = TurbolinksHelper.createWebView(applicationContext);
         this.webView.addJavascriptInterface(this, JAVASCRIPT_INTERFACE_NAME);
@@ -273,6 +275,7 @@ public class TurbolinksSession implements TurbolinksScrollUpCallback {
         this.turbolinksView.getRefreshLayout().setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
+                Log.d("TURBOLINKS", "on refresh");
                 new CheckURL().execute(location);
 //                visitLocationWithAction(location, ACTION_ADVANCE);
             }
@@ -722,6 +725,15 @@ public class TurbolinksSession implements TurbolinksScrollUpCallback {
         runJavascript("webView.visitLocationWithActionAndRestorationIdentifier", TurbolinksHelper.encodeUrl(location), action, getRestorationIdentifierFromMap());
     }
 
+    /**
+     * <p>Sets the optional AuthToken for url testing on swipe refresh. Default is empty string.</p>
+     *
+     * @param authToken used in CheckUrl to catch 401 errors on swipe refresh
+     */
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
+    }
+
     // ---------------------------------------------------
     // Private
     // ---------------------------------------------------
@@ -835,7 +847,9 @@ public class TurbolinksSession implements TurbolinksScrollUpCallback {
 
             try {
 
-                URL url = new URL(args[0]);
+                String urlString = args[0] + "?device_token=" + authToken;
+                Log.d("TURBOLINKS", "check url: " + urlString);
+                URL url = new URL(urlString);
                 HttpURLConnection http = (HttpURLConnection)url.openConnection();
                 http.setInstanceFollowRedirects(false);
                 http.setRequestMethod("HEAD");
@@ -866,6 +880,7 @@ public class TurbolinksSession implements TurbolinksScrollUpCallback {
 
         @Override
         protected void onPostExecute(String  location) {
+            Log.d("TURBOLINKS", "checkurl:on post execute");
             if(!location.contains("login")) {
                 visitLocationWithAction(location, ACTION_ADVANCE);
             } else {
