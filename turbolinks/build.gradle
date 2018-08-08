@@ -3,7 +3,7 @@ apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
 buildscript {
-    ext.supportLibVersion = '27.0.2'
+    ext.supportLibVersion = '27.1.1'
     ext.libVersionName = '1.0.9'
 
     repositories {
