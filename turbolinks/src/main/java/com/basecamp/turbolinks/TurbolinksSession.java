@@ -851,6 +851,7 @@ public class TurbolinksSession implements TurbolinksScrollUpCallback {
                 Log.d("TURBOLINKS", "check url: " + urlString);
                 URL url = new URL(urlString);
                 HttpURLConnection http = (HttpURLConnection)url.openConnection();
+                http.setRequestProperty("User-Agent", "BigCartel-Android");
                 http.setInstanceFollowRedirects(false);
                 http.setRequestMethod("HEAD");
                 http.connect();
@@ -880,7 +881,7 @@ public class TurbolinksSession implements TurbolinksScrollUpCallback {
 
         @Override
         protected void onPostExecute(String  location) {
-            Log.d("TURBOLINKS", "checkurl:on post execute");
+            Log.d("TURBOLINKS", "checkurl:on post execute: " + location);
             if(!location.contains("login")) {
                 visitLocationWithAction(location, ACTION_ADVANCE);
             } else {
