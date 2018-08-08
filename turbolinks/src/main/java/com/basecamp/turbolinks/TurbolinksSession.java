@@ -848,7 +848,8 @@ public class TurbolinksSession implements TurbolinksScrollUpCallback {
             try {
 
                 String urlString = args[0] + "?device_token=" + authToken;
-                Log.d("TURBOLINKS", "check url: " + urlString);
+                Log.d("TURBOLINKS", "check url args[0]: " + args[0]);
+                Log.d("TURBOLINKS", "check url urlstring: " + urlString);
                 URL url = new URL(urlString);
                 HttpURLConnection http = (HttpURLConnection)url.openConnection();
                 http.setRequestProperty("User-Agent", "BigCartel-Android");
