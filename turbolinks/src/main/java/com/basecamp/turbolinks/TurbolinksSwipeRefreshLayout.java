@@ -41,8 +41,6 @@ class TurbolinksSwipeRefreshLayout extends SwipeRefreshLayout {
         if (callback != null) {
             return callback.canChildScrollUp();
         }
-//        return super.canChildScrollUp();
-        Log.d("TURBOLINKSTEST", "CAN CHILD SCROLL UP");
         return false;
     }
 
@@ -53,7 +51,6 @@ class TurbolinksSwipeRefreshLayout extends SwipeRefreshLayout {
      * @param callback The custom callback to be set
      */
     void setCallback(TurbolinksScrollUpCallback callback) {
-        Log.d("TURBOLINKSTEST", "SET CALLBACK");
         this.callback = callback;
     }
 }

@@ -8,6 +8,7 @@ import android.content.MutableContextWrapper;
 import android.graphics.Bitmap;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
@@ -21,6 +22,10 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -268,7 +273,8 @@ public class TurbolinksSession implements TurbolinksScrollUpCallback {
         this.turbolinksView.getRefreshLayout().setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                visitLocationWithAction(location, ACTION_ADVANCE);
+                new CheckURL().execute(location);
+//                visitLocationWithAction(location, ACTION_ADVANCE);
             }
         });
         this.webViewAttachedToNewParent = this.turbolinksView.attachWebView(webView, screenshotsEnabled, pullToRefreshEnabled);
@@ -692,7 +698,6 @@ public class TurbolinksSession implements TurbolinksScrollUpCallback {
     public void setPullToRefreshEnabled(boolean enabled) {
         pullToRefreshEnabled = enabled;
         if(!enabled) {
-            Log.d("TURBOLINKSTEST", "SET PULL TO REFRESH: " + enabled);
             this.turbolinksView.getRefreshLayout().setCallback(null);
         }
     }
@@ -816,5 +821,56 @@ public class TurbolinksSession implements TurbolinksScrollUpCallback {
     @Override
     public boolean canChildScrollUp() {
         return this.webView.getScrollY() > 0;
+    }
+
+    private class CheckURL extends AsyncTask<String, Void, String> {
+
+
+        @Override
+        protected void onPreExecute() {
+        }
+        @Override
+        protected String doInBackground(String... args) {
+            String location = "";
+
+            try {
+
+                URL url = new URL(args[0]);
+                HttpURLConnection http = (HttpURLConnection)url.openConnection();
+                http.setInstanceFollowRedirects(false);
+                http.setRequestMethod("HEAD");
+                http.connect();
+
+                int statusCode = http.getResponseCode();
+                location = http.getHeaderField("Location");
+
+
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+                // Show a toast for now...
+                Log.d("HTTP", "UNSUPPORTED ENCODING EXCEPTION");
+            } catch (IOException e) {
+                e.printStackTrace();
+                // Show a toast for now...
+                Log.d("HTTP", "I/O EXCEPTION");
+
+            }  catch (Exception e) {
+                e.printStackTrace();
+                // Show a toast for now...
+                Log.d("HTTP", "GENERIC EXCEPTION");
+
+            }
+
+            return location;
+        }
+
+        @Override
+        protected void onPostExecute(String  location) {
+            if(!location.contains("login")) {
+                visitLocationWithAction(location, ACTION_ADVANCE);
+            } else {
+                turbolinksAdapter.onReceivedError(401);
+            }
+        }
     }
 }
