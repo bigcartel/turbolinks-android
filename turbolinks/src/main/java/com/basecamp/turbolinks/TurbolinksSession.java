@@ -887,6 +887,9 @@ public class TurbolinksSession implements TurbolinksScrollUpCallback {
             if(location.contains("login")) {
                 turbolinksAdapter.onReceivedError(401);
             } else {
+                if(!location.contains("device_token")) {
+                    location += "?device_token=" + authToken;
+                }
                 visitLocationWithAction(location, ACTION_ADVANCE);
             }
         }
