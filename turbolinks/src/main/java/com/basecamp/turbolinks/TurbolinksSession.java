@@ -849,8 +849,12 @@ public class TurbolinksSession implements TurbolinksScrollUpCallback {
 
                 String urlString = args[0];
                 // Only append device token if not already there
-                if(!args[0].contains("device_token")) {
-                    urlString += "?device_token=" + authToken;
+                if(!urlString.contains("device_token")) {
+                    if(urlString.contains("?")) {
+                        urlString += "&device_token=" + authToken;
+                    } else {
+                        urlString += "?device_token=" + authToken;
+                    }
                 }
                 TurbolinksLog.d("Check Url: About to test url: " + urlString);
                 URL url = new URL(urlString);
@@ -889,9 +893,6 @@ public class TurbolinksSession implements TurbolinksScrollUpCallback {
             if(location.contains("login")) {
                 turbolinksAdapter.onReceivedError(401);
             } else {
-                if(!location.contains("device_token")) {
-                    location += "?device_token=" + authToken;
-                }
                 visitLocationWithAction(location, ACTION_ADVANCE);
             }
         }
