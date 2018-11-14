@@ -844,10 +844,10 @@ public class TurbolinksSession implements TurbolinksScrollUpCallback {
         @Override
         protected String doInBackground(String... args) {
             String location = "";
+            String urlString = args[0];
 
             try {
 
-                String urlString = args[0];
                 // Only append device token if not already there
                 if(!urlString.contains("device_token")) {
                     if(urlString.contains("?")) {
@@ -884,7 +884,7 @@ public class TurbolinksSession implements TurbolinksScrollUpCallback {
 
             }
 
-            return location;
+            return location != null ? location : urlString;
         }
 
         @Override
